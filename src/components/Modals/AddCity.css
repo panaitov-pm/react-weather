@@ -1,0 +1,60 @@
+.modal-overlay {
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	z-index: 100;
+	background-color: rgba(0, 0, 0, 0.5);
+}
+.modal-window {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%) scale(0);
+	z-index: 101;
+	margin-left: auto;
+	margin-right: auto;
+	padding: 20px;
+	max-width: 600px;
+	width: 100%;
+	border-radius: 10px;
+	background-color: #fff;
+	box-shadow: 0 0 10px 5px #999;
+	transition: transform 0.5s;
+	transform-origin: 50% 50%;
+}
+.modal-window__inner {
+	position: relative;
+}
+.modal-window__close {
+	outline: 0;
+	position: absolute;
+	top: -10px;
+	right: -10px;
+	cursor: pointer;
+	border: 0;
+	background-color: transparent;
+	width: 25px;
+	height: 25px;
+	display: block;
+}
+.modal-window__close svg {
+	width: 25px;
+	height: 25px;
+	transition: 0.3s;
+	transition-property: transform, fill;
+}
+.modal-window__close svg:hover {
+	transform: rotate(360deg);
+	fill: red;
+}
+.modal-window.visible {
+	transform: translate(-50%, -50%) scale(1);
+}
+.modal-overlay.visible {
+	opacity: 1;
+}
+.ui.form label {
+	text-align: left;
+}
