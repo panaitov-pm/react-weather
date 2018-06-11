@@ -72,7 +72,7 @@ class AddCityField extends Component {
 
   render() {
     const { city, country, isDisabled } = this.state;
-    const { isError, isLoading } = this.props;
+    const { isError, isLoading, addCityModalTitle } = this.props;
 
     return (
       <Form onSubmit={this.handleSubmit}>
@@ -110,7 +110,7 @@ class AddCityField extends Component {
           primary
           disabled={isDisabled}
           loading={isLoading}
-        >Add City
+        >{addCityModalTitle}
         </Button>
       </Form>
     );
@@ -118,11 +118,13 @@ class AddCityField extends Component {
 }
 
 AddCityField.propTypes = {
+  addCityModalTitle: PropTypes.string.isRequired,
+  entities: PropTypes.array.isRequired,
   fetchWeather: PropTypes.func.isRequired,
   getError: PropTypes.func.isRequired,
   isError: PropTypes.string,
-  entities: PropTypes.array.isRequired,
-};
+  isLoading: PropTypes.bool.isRequired
+}
 
 AddCityField.defaultProps = {
   isError: '',
