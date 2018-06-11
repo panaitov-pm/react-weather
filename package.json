@@ -1,6 +1,6 @@
 {
-  "homepage": "http://panaitov-pm.github.io/react-songs/",
-  "name": "react-songs",
+  "homepage": "http://panaitov-pm.github.io/react-weather/",
+  "name": "react-weather",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
