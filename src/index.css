@@ -1,0 +1,13 @@
+body {
+	padding-top :30px;
+}
+
+.sk-spinner {
+	position :absolute;
+	bottom :0;
+	left :50%;
+	transform :translateX(-50%);
+}
+.first-letter:first-letter {
+	text-transform: uppercase;
+}
