@@ -9,10 +9,12 @@ class Home extends Component {
 	state = {
 		addCityModal : false,
 		addCityModalTitle : 'Add City',
+		currentCity: 0,
 	};
 
 	handleAddCityModal = ( e ) => {
-		e.stopPropagation();
+		(e) && e.stopPropagation();
+
 		this.setState( {
 			addCityModal: !this.state.addCityModal
 		} );
@@ -24,8 +26,10 @@ class Home extends Component {
 		} );
 	};
 
+	handleEditCity = (id) => this.setState({currentCity: id});
+
 	render() {
-		const { addCityModal, addCityModalTitle } = this.state;
+		const { addCityModal, addCityModalTitle, currentCity } = this.state;
 		return (
 			<Fragment>
 				<div className="header">
@@ -34,11 +38,13 @@ class Home extends Component {
 						visible={addCityModal}
 						onToggleCityModalTitle={this.handleToggleCityModalTitle}
 						addCityModalTitle={addCityModalTitle}
+						currentCity={currentCity}
 					/>
 				</div>
 				<CityList
 					onAddCityModal={this.handleAddCityModal}
 					onToggleCityModalTitle={this.handleToggleCityModalTitle}
+					onEditCity={this.handleEditCity}
 					visible={addCityModal} />
 			</Fragment>
 		);

@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { Fragment, Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { Button, Card, Icon } from 'semantic-ui-react';
@@ -17,10 +17,11 @@ const cityBorderColors = [
 ];
 
 class CityList extends Component {
-	handleToggleAddCityModal = ( e ) => {
-		const { onAddCityModal, onToggleCityModalTitle } = this.props;
+	handleToggleAddCityModal = ( id ) => {
+		const { onAddCityModal, onToggleCityModalTitle, onEditCity } = this.props;
 		onToggleCityModalTitle( 'Edit City' );
-		onAddCityModal( e );
+		onAddCityModal();
+		onEditCity( id );
 	};
 
 	render() {
@@ -47,7 +48,7 @@ class CityList extends Component {
 											<Button
 												animated="vertical"
 												positive
-												onClick={this.handleToggleAddCityModal}
+												onClick={() => this.handleToggleAddCityModal( item.id )}
 											>
 												<Button.Content visible>Edit</Button.Content>
 												<Button.Content hidden>
@@ -78,10 +79,10 @@ class CityList extends Component {
 };
 
 CityList.propTypes = {
-  entities: PropTypes.array.isRequired,
-  onAddCityModal: PropTypes.func.isRequired,
-  onToggleCityModalTitle: PropTypes.func.isRequired,
-  removeCity: PropTypes.func.isRequired
+	entities              : PropTypes.array.isRequired,
+	onAddCityModal        : PropTypes.func.isRequired,
+	onToggleCityModalTitle: PropTypes.func.isRequired,
+	removeCity            : PropTypes.func.isRequired
 }
 
 export default connect(

@@ -3,14 +3,17 @@ import PropTypes from 'prop-types';
 
 import { Header, Transition } from 'semantic-ui-react';
 import AddButton from '../AddButton';
-import AddCityField from '../Forms/AddCityForm.jsx';
+import AddCityForm from '../Forms/AddCityForm.jsx';
 
 import './AddCity.css';
 
 class AddCity extends Component {
 
 	render() {
-		const { visible, onAddCityModal, onToggleCityModalTitle, addCityModalTitle } = this.props;
+		const {
+			visible, onAddCityModal,
+			onToggleCityModalTitle, addCityModalTitle,
+			currentCity } = this.props;
 		let isActive = (visible)
 			? 'modal-window visible'
 			: 'modal-window';
@@ -30,7 +33,7 @@ class AddCity extends Component {
 				<div className={isActive}>
 					<div className="modal-window__inner">
 						<Header className="modal-window__header" as="h2">{addCityModalTitle}</Header>
-						<div className="modal-window__content"><AddCityField addCityModalTitle={addCityModalTitle} /></div>
+						<div className="modal-window__content"><AddCityForm addCityModalTitle={addCityModalTitle} currentCity={currentCity}/></div>
 						<button className="modal-window__close" onClick={onAddCityModal}>
 							<svg viewBox="0 0 294.843 294.843" style={{ enableBackground: 'new 0 0 294.843 294.843' }} version="1.1"
 							     xmlns="http://www.w3.org/2000/svg">
@@ -54,8 +57,9 @@ class AddCity extends Component {
 export default AddCity;
 
 AddCity.propTypes = {
-	addCityModalTitle     : PropTypes.string.isRequired,
-	onAddCityModal        : PropTypes.func.isRequired,
-	onToggleCityModalTitle: PropTypes.func.isRequired,
-	visible               : PropTypes.bool.isRequired
+  addCityModalTitle: PropTypes.string.isRequired,
+  currentCity: PropTypes.number.isRequired,
+  onAddCityModal: PropTypes.func.isRequired,
+  onToggleCityModalTitle: PropTypes.func.isRequired,
+  visible: PropTypes.bool.isRequired
 }
