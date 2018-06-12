@@ -1,6 +1,4 @@
 import PropTypes from 'prop-types';
-import React from 'react';
-
 
 const ErrorMessage = ({ title }) => (
   title

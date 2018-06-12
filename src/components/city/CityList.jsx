@@ -30,7 +30,7 @@ class CityList extends Component {
       ROOT_ICON_URL = 'https://openweathermap.org/img/w',
       max = (cityBorderColors.length - 1),
       celsius = convertTemperature('C');
-    
+
     return (
       (entities.length > 0) &&
       <Fragment>

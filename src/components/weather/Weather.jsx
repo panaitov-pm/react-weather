@@ -5,10 +5,10 @@ import convertTemperature from '../../utils/convertTemperature';
 import convertUTCTimeStamp from '../../utils/convertUTCTimeStamp';
 import isEmpty from '../../utils/isEmpty';
 import ErrorMessage from '../ErrorMessage';
+import Chart from './Chart';
 
 import Map from './Map';
 import './Weather.css';
-import Chart from './Chart';
 
 class Weather extends Component {
   state = {
@@ -28,17 +28,17 @@ class Weather extends Component {
         return acc;
       }, {});
     }
-    if(!isEmpty(forecast)) {
-      forecastData = forecast.list.reduce( (acc, item) => {
+    if (!isEmpty(forecast)) {
+      forecastData = forecast.list.reduce((acc, item) => {
         acc.temp.push(item.main.temp);
         acc.pressure.push(item.main.pressure);
         acc.humidity.push(item.main.humidity);
         return acc;
-      }, {temp: [], pressure: [], humidity: []});
+      }, { temp: [], pressure: [], humidity: [] });
     }
     return ({
       cityData,
-      forecastData
+      forecastData,
     });
   }
 
@@ -106,11 +106,11 @@ class Weather extends Component {
           </div>
           <div className="weather-info__item col-sm-8">
             <h4>Temperature</h4>
-            <Chart data={forecastData.temp} color="red"/>
+            <Chart data={forecastData.temp} color="red" />
             <h4>Pressure</h4>
-            <Chart data={forecastData.pressure} color="green"/>
+            <Chart data={forecastData.pressure} color="green" />
             <h4>Humidity</h4>
-            <Chart data={forecastData.humidity}/>
+            <Chart data={forecastData.humidity} />
           </div>
         </div>
       </Fragment>
