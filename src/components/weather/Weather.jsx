@@ -8,31 +8,42 @@ import ErrorMessage from '../ErrorMessage';
 
 import Map from './Map';
 import './Weather.css';
+import Chart from './Chart';
 
 class Weather extends Component {
   state = {
     cityData: {},
+    forecastData: {},
   };
 
   static getDerivedStateFromProps(props, state) {
-    const { weather, match } = props;
-    let cityData = {};
-    if (weather.length > 0) {
+    const { weather, match, forecast } = props;
+    let cityData = {},
+      forecastData = {};
+    if (!isEmpty(weather)) {
       cityData = weather.reduce((acc, item) => {
         if (item.id === +match.params.id) {
           acc = item;
         }
         return acc;
       }, {});
-      return ({
-        cityData,
-      });
     }
-    return null;
+    if(!isEmpty(forecast)) {
+      forecastData = forecast.list.reduce( (acc, item) => {
+        acc.temp.push(item.main.temp);
+        acc.pressure.push(item.main.pressure);
+        acc.humidity.push(item.main.humidity);
+        return acc;
+      }, {temp: [], pressure: [], humidity: []});
+    }
+    return ({
+      cityData,
+      forecastData
+    });
   }
 
   render() {
-    const { cityData, cityData: { coord, name, main, weather, sys } } = this.state;
+    const { cityData, cityData: { coord, name, main, weather, sys }, forecastData } = this.state;
     const ROOT_ICON_URL = 'https://openweathermap.org/img/w';
     let lat = 0,
       lng = 0,
@@ -51,44 +62,56 @@ class Weather extends Component {
     return (
       <Fragment>
         <h1>Weather in {name}, {sys.country}</h1>
-        <div className="weather-widget">
-          <div className="weather-widget__temperature">
-            <h3>
-              <img src={`${ROOT_ICON_URL}/${weatherInfo.icon}.png`} alt={`Weather ${cityData.name}, ${cityData.sys.country}`} />
-              <span>{temperature} °C</span>
-            </h3>
+        <div className="row weather-info">
+          <div className="weather-info__item col-sm-4">
+            <div className="weather-widget">
+              <div className="weather-widget__temperature">
+                <h3>
+                  <img src={`${ROOT_ICON_URL}/${weatherInfo.icon}.png`} alt={`Weather ${cityData.name}, ${cityData.sys.country}`} />
+                  <span>{temperature} °C</span>
+                </h3>
 
+              </div>
+              <p className="first-letter">{weatherInfo.description}</p>
+              <ul className="list-group">
+                <li className="list-group-item">
+                  <span>Cloudiness</span>
+                  <span className="first-letter">{weatherInfo.description}</span>
+                </li>
+                <li className="list-group-item">
+                  <span>Pressure</span>
+                  <span>{main.pressure} hpa</span>
+                </li>
+                <li className="list-group-item">
+                  <span>Humidity</span>
+                  <span>{main.humidity} %</span>
+                </li>
+                <li className="list-group-item">
+                  <span>Sunrise</span>
+                  <span>{convertUTCTimeStamp(sys.sunrise)}</span>
+                </li>
+                <li className="list-group-item">
+                  <span>Sunset</span>
+                  <span>{convertUTCTimeStamp(sys.sunset)}</span>
+                </li>
+                <li className="list-group-item">
+                  <span>Coords</span>
+                  <span>[{coord.lat}, {coord.lon}]</span>
+                  <div className="weather-widget__map">{
+                    (!!lat && !!lng) && <Map lat={lat} lng={lng} />
+                  }</div>
+                </li>
+              </ul>
+            </div>
           </div>
-          <p className="first-letter">{weatherInfo.description}</p>
-          <ul className="list-group">
-            <li className="list-group-item">
-              <span>Cloudiness</span>
-              <span className="first-letter">{weatherInfo.description}</span>
-            </li>
-            <li className="list-group-item">
-              <span>Pressure</span>
-              <span>{main.pressure} hpa</span>
-            </li>
-            <li className="list-group-item">
-              <span>Humidity</span>
-              <span>{main.humidity} %</span>
-            </li>
-            <li className="list-group-item">
-              <span>Sunrise</span>
-              <span>{convertUTCTimeStamp(sys.sunrise)}</span>
-            </li>
-            <li className="list-group-item">
-              <span>Sunset</span>
-              <span>{convertUTCTimeStamp(sys.sunset)}</span>
-            </li>
-            <li className="list-group-item">
-              <span>Coords</span>
-              <span>[{coord.lat}, {coord.lon}]</span>
-              <div className="weather-widget__map">{
-                (!!lat && !!lng) && <Map lat={lat} lng={lng} />
-              }</div>
-            </li>
-          </ul>
+          <div className="weather-info__item col-sm-8">
+            <h4>Temperature</h4>
+            <Chart data={forecastData.temp} color="red"/>
+            <h4>Pressure</h4>
+            <Chart data={forecastData.pressure} color="green"/>
+            <h4>Humidity</h4>
+            <Chart data={forecastData.humidity}/>
+          </div>
         </div>
       </Fragment>
     );
@@ -97,10 +120,12 @@ class Weather extends Component {
 
 Weather.propTypes = {
   weather: PropTypes.array.isRequired,
+  forecast: PropTypes.object.isRequired,
 };
 
 export default connect(
   ({ weather }) => ({
     weather: weather.entities,
+    forecast: weather.forecast,
   }),
 )(Weather);
