@@ -2,7 +2,7 @@ import axios from 'axios';
 import C from '../constants';
 
 const API_KEY = '14f41811d232243b0c30a30f286115e3',
-  ROOT_URL = 'http://api.openweathermap.org/data/2.5/',
+  ROOT_URL = 'https://api.openweathermap.org/data/2.5/',
   WEATHER_URL = `${ROOT_URL}/weather`,
   FORECAST_URL = `${ROOT_URL}/forecast`;
 
