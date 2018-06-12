@@ -16,7 +16,7 @@ class Weather extends Component {
     forecastData: {},
   };
 
-  static getDerivedStateFromProps(props, state) {
+  static getDerivedStateFromProps(props) {
     const { weather, match, forecast } = props;
     let cityData = {},
       forecastData = {};
@@ -30,9 +30,12 @@ class Weather extends Component {
     }
     if (!isEmpty(forecast)) {
       forecastData = forecast.list.reduce((acc, item) => {
-        acc.temp.push(item.main.temp);
-        acc.pressure.push(item.main.pressure);
-        acc.humidity.push(item.main.humidity);
+        const date = convertUTCTimeStamp(item.dt);
+        const celsius = convertTemperature('C');
+        const temp = celsius(item.main.temp);
+        acc.temp.push({ date, val: temp });
+        acc.pressure.push({ date, val: item.main.pressure });
+        acc.humidity.push({ date, val: item.main.humidity });
         return acc;
       }, { temp: [], pressure: [], humidity: [] });
     }
@@ -105,12 +108,20 @@ class Weather extends Component {
             </div>
           </div>
           <div className="weather-info__item col-sm-8">
-            <h4>Temperature</h4>
-            <Chart data={forecastData.temp} color="red" />
-            <h4>Pressure</h4>
-            <Chart data={forecastData.pressure} color="green" />
-            <h4>Humidity</h4>
-            <Chart data={forecastData.humidity} />
+            <div className="weather-info__row">
+              <div className="weather-info__col">
+                <h4>Temperature</h4>
+                <Chart data={forecastData.temp} tickFormat="°C" />
+              </div>
+              <div className="weather-info__col weather-info__col--padding">
+                <h4>Pressure</h4>
+                <Chart data={forecastData.pressure} tickFormat="hpa" />
+              </div>
+              <div className="weather-info__col">
+                <h4>Humidity</h4>
+                <Chart data={forecastData.humidity} tickFormat="%" />
+              </div>
+            </div>
           </div>
         </div>
       </Fragment>

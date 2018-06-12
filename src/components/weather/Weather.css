@@ -54,3 +54,7 @@ svg {
 .weather-widget__temperature img {
 	margin-right: 10px;
 }
+
+.weather-info__col--padding svg {
+	padding-left: 20px;
+}
