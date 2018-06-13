@@ -6,8 +6,7 @@ import Page404 from './pages/Page404';
 import Weather from './weather/Weather';
 
 
-const App = () => {
-  return (
+const App = () => (
     <div className="ui container">
       <Switch>
         <Route exact path="/" component={Home} />
@@ -15,9 +14,7 @@ const App = () => {
         <Route component={Page404} />
       </Switch>
     </div>
-
   );
-};
 
 
 export default App;

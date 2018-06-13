@@ -14,6 +14,6 @@ ReactDOM.render(
   <BrowserRouter>
     <Root store={store} />
   </BrowserRouter>,
-  document.getElementById('root'),
+  document.getElementById( 'root' ),
 );
 

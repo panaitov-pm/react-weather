@@ -16,8 +16,8 @@ class AddCityField extends Component {
     country: '',
   };
 
-  static getDerivedStateFromProps(props) {
-    if (props.isLoading) {
+  static getDerivedStateFromProps( props ) {
+    if ( props.isLoading ) {
       return {
         isDisabled: true,
       };
@@ -25,65 +25,54 @@ class AddCityField extends Component {
     return null;
   }
 
-  handleSubmit = (e) => {
+  handleSubmit = ( e ) => {
     e.preventDefault();
     const { city, country } = this.state;
     const { fetchWeather, getError, editCity, entities, currentCity } = this.props;
-    let cities = entities.reduce((acc, item) => {
+    let cities = entities.reduce( ( acc, item ) => {
       const city = item.name.toLowerCase();
       const country = item.sys.country.toLowerCase();
       const cityIds = item.id;
 
-      (!entities.includes(country)) && acc.push(country);
+      (!entities.includes( country )) && acc.push( country );
 
-      (!entities.includes(city)) && acc.push(city);
-      (!entities.includes(cityIds)) && acc.push(cityIds);
+      (!entities.includes( city )) && acc.push( city );
+      (!entities.includes( cityIds )) && acc.push( cityIds );
 
       return acc;
-    }, []);
+    }, [] );
 
-    /*if ( !cities.includes( currentCity ) ) {
-      if ( !cities.includes( country.toLowerCase() ) ) {
-        fetchWeather( city, country );
-      } else if ( !cities.includes( city.toLowerCase() ) ) {
+    if ( !cities.includes( country.toLowerCase() ) || !cities.includes( city.toLowerCase() ) ) {
+      if ( !cities.includes( currentCity ) ) {
         fetchWeather( city, country );
       } else {
-        getError( 'You already have the city' );
+        editCity( city, country, currentCity );
       }
     } else {
-      editCity( city, country, currentCity );
-    }*/
-    if(!cities.includes(country.toLowerCase()) || !cities.includes(city.toLowerCase())) {
-    	if(!cities.includes(currentCity)) {
-        fetchWeather(city, country);
-    	} else {
-        editCity(city, country, currentCity);
-      }
-    } else {
-      getError('You already have the city');
+      getError( 'You already have the city' );
     }
 
-    this.setState({
+    this.setState( {
       city: '',
       country: '',
-    });
+    } );
     this.handleIsFocus();
   };
-  handleAddCity = ({ target }) => this.setState(() => {
+  handleAddCity = ( { target } ) => this.setState( () => {
     let value = target.value;
-    if (target.name === 'city') {
-      value = target.value.replace(/[^a-z ]/i, '');
+    if ( target.name === 'city' ) {
+      value = target.value.replace( /[^a-z ]/i, '' );
     }
     return ({
       [target.name]: value,
     });
   }, () => {
     const { city, country } = this.state;
-    this.setState({
+    this.setState( {
       isDisabled: !(city.trim().length > 0 &&
         (country !== '-1' && country.trim().length > 0)),
-    });
-  });
+    } );
+  } );
   handleIsFocus = () => this.inputCity.focus();
 
   render() {
@@ -104,7 +93,7 @@ class AddCityField extends Component {
           <input
             name="city"
             value={city}
-            ref={(node) => this.inputCity = node}
+            ref={( node ) => this.inputCity = node}
             placeholder="Only latin letters"
             onChange={this.handleAddCity} />
         </Form.Field>
@@ -116,9 +105,9 @@ class AddCityField extends Component {
             onChange={this.handleAddCity}>
             <option value="-1">Select Country</option>
             {
-              countriesCode.map((country) => (
+              countriesCode.map( ( country ) => (
                 <option key={id()} value={country.code.toLowerCase()}>{country.name}</option>
-              ))
+              ) )
             }
           </select>
         </Form.Field>
@@ -151,10 +140,10 @@ AddCityField.defaultProps = {
 
 
 export default connect(
-  ({ weather }) => ({
+  ( { weather } ) => ({
     isError: weather.isError,
     isLoading: weather.isLoading,
     entities: weather.entities,
   }),
   { fetchWeather, getError, editCity },
-)(AddCityField);
+)( AddCityField );

@@ -3,17 +3,17 @@ import React, { Fragment } from 'react';
 
 import { Header, Transition } from 'semantic-ui-react';
 import AddButton from '../AddButton';
-import AddCityForm from '../Forms/AddCityForm.jsx';
+import AddCityForm from '../Forms/AddCityForm';
 
 import './AddCity.css';
 
-const AddCity = ({
-                   visible, onAddCityModal,
-                   onToggleCityModalTitle, addCityModalTitle,
-                   currentCity,
-                 }) => {
+const AddCity = ( {
+                    visible, onAddCityModal,
+                    onToggleCityModalTitle, addCityModalTitle,
+                    currentCity,
+                  } ) => {
 
-  let isActive = (visible)
+  const isActive = (visible)
     ? 'modal-window visible'
     : 'modal-window';
 

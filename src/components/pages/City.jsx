@@ -1,12 +1,10 @@
 import React from 'react';
 
-const City = () => {
-  return (
-    <div>
-      <h1>City</h1>
-    </div>
-  );
-};
+const City = () => (
+  <div>
+    <h1>City</h1>
+  </div>
+);
 
 City.propTypes = {};
 
